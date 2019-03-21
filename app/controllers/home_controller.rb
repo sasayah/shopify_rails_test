@@ -23,7 +23,7 @@ class HomeController < ShopifyApp::AuthenticatedController
     @price_rules = ShopifyAPI::PriceRule.find(:all, params:{limit: 10})
     @discount_code = ShopifyAPI::DiscountCode.new
     @discount_code.prefix_options[:price_rule_id] = 327496499264
-    @discount_code.code = "SUMMERSALE10_1"
+    @discount_code.code = "SUMMERSALE10#{rand(10 ** 10)}"
     @discount_code.save
   end
 end
