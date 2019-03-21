@@ -2,6 +2,7 @@ class HomeController < ShopifyApp::AuthenticatedController
   def index
     @products = ShopifyAPI::Product.find(:all, params: { limit: 10 })
     @webhooks = ShopifyAPI::Webhook.find(:all)
+    @shop = Shop.where(shopify_domain: params[:shop]).first
     # @create_price_rule = ShopifyAPI::PriceRule.new(
     #     price_rule: {
     #         title: "FREESHIPPING2",
@@ -20,5 +21,9 @@ class HomeController < ShopifyApp::AuthenticatedController
     #   )
     #   @create_price_rule.save
     @price_rules = ShopifyAPI::PriceRule.find(:all, params:{limit: 10})
+    @discount_code = ShopifyAPI::DiscountCode.new
+    @discount_code.prefix_options[:price_rule_id] = 327496499264
+    @discount_code.code = "SUMMERSALE10_1"
+    @discount_code.save
   end
 end

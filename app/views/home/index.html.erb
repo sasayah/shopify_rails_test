@@ -5,10 +5,21 @@
     });
   </script>
 <% end %>
+<h2>Shop</h2>
+<ul><%= @shop.inspect %></ul>
+
+<h2>Discount code</h2>
+<ul>
+  <% if  @discount_code %>
+    <p><%= @discount_code.inspect %></p>
+  <% end %>
+</ul>
+
 <h2>Price_rule</h2>
 <ul>
   <% @price_rules.each do |price_rule| %>
-    <p>price_rule</p>
+    <p><%= price_rule.inspect %></p>
+    <br>
   <% end %>
 </ul>
 
