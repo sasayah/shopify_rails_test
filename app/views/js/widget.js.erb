@@ -1,0 +1,169 @@
+var Stork = (function(window, undefined) {
+  var Stork = {}
+  function loadSupportingFiles(callback){}
+  function getWidgetParams(){}
+  function getRatingData(params, callback){}
+  function drawWidget() {}
+  loadSupportingFiles(function(){
+    var params = getWidgetParams();
+    getRatingData(params, function() {
+      drawWidget()
+    });
+  });
+  function getProductId() {
+    var scripts = document.getElementsByTagName('script');
+    var id;
+    for(var i = 0; i < scripts.length; i++){
+      id = scripts[i].getAttribute('data-stork-product-id');
+      if(id){
+        return id;
+      }
+    }
+    return null;
+  }
+  function loadStylesheet(url){
+    var link = document.createElement('link');
+    link.rel='stylesheet';
+    link.type='text/css';
+    link.href=url;
+    var entry=document.getElementsByTagName('script')[0];
+    entry.parentNode.insertBefore(link,entry);
+  }
+
+  function isCssReady(callback){
+    var testElem = document.createElement('span');
+    testElem.id = 'shp-css-ready';
+    testElem.style = 'color: #fff';
+    var entry = document.getElementsByTagName('script')[0];
+    entry.parentNode.insertBefore(testElem, entry);
+    (function poll() {
+      var node=document.getElementById('cssready');
+      var value;
+      if(window.getComputedStyle){
+        value=document.defaultView
+                      .getComputedStyle(testElem,null)
+                      .getPropertyValue('color');
+      }
+      else if(node.currentStyle){
+        value = node.currentStyle.color;
+      }
+      if(value && value==='rgb(186, 218, 85)' || value.toLowerCase()==='#bada55'){
+        callback();
+      } else {
+        setTimeout(poll, 500);
+      }
+    })();
+  }
+
+  function loadScript(url,callback){
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = url;
+    var entry = document.getElementsByTagName('script')[0];
+    entry.parentNode.insertBefore(script, entry);
+    script.onload = script.onreadystatechange = function(){
+      var rdyState = script.readyState;
+      if(!rdyState||/complete|loaded/.test(script.readyState)){
+        callback();
+        script.onload=null;
+        script.onreadystatechange=null;
+      }
+    };
+  }
+  function sayhello(){
+    console.log('hello')
+    Stork.$(function() {
+
+      Stork.$(document).on("click", '#shp-click', function () {
+      console.log('クリックされました！');
+      <%# fetch('http://your-api-server.net', {
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+      .then((res) => console.log) %>
+
+
+  Stork.$.ajax({
+    url: 'https://b4659964.ngrok.io/create',
+    type: 'get',
+    dataType: 'json',
+    xhrFields: {
+        withCredentials: true
+    },
+
+    success: function(result, textStatus, xhr) {
+        console.log('here1')
+        console.log(result)
+        Stork.$('#shp-num').text(result['code']);
+        console.log(self, result, textStatus, xhr);
+    },
+    error: function(xhr, textStatus, error) {
+        console.log('here2')
+        console.log(self, xhr, textStatus, error);
+    }
+});
+
+
+      
+
+      <%# var path = "https://b4659964.ngrok.io/create";
+      console.log(path)
+      Stork.$.get(path, function(data){
+        Stork.$('#shp-num').text(data['code']);
+        console.log(data)
+      }); %>
+  })
+
+
+
+      Stork.$(document).on("click", '#shp-button', function () {
+        //JSONデータへのパス
+        var path = "https://jsondata.okiba.me/v1/json/demo01";  //httpから始まるURL型式でもOKです。
+        console.log(path)
+        //JSONデータを取得し、配列に格納する
+        Stork.$.getJSON(path, function(data){
+          Stork.$('#shp-num').text(data[2]['name']);
+          var arr = [];
+          Stork.$.each(data, function(key, val){
+            arr.push("key⇒" + key + " val⇒" + val);
+          });
+     
+          //取得したJSONデータをコンソールに表示する
+          for(let i in arr){
+            console.log(arr[i]);
+          }
+     
+        });
+     
+      });
+    });
+
+
+  }
+
+  loadScript('https://b4659964.ngrok.io/jquery.js',sayhello);
+
+
+
+
+
+  loadStylesheet('https://b4659964.ngrok.io/style.css');
+  var html = '<div id="shp-div">'+'<button id="shp-button">ボタン</button>' + '<button type="button" id="btn1" name="aaa" value="aaa">'+ '<font size="2">ここを</font><font size="5" color="#333399" id="shp-click">押してね</font>' + '</button>' +'<h3 id="shp-color">MikonE90DigitalSLR</h3>'+'<img src="https://lh3.googleusercontent.com/pU8j3O1yM4WiLD14LqFbXPrtYWzZDKjgYK6qzBSa822FRdlANJ16qO78zxj9hDkMQvD0Eg=s102"/>'+'<p id="shp-num">' + getProductId() + '</p>'+'<p>4.3/5.0&bull;176Reviews</p>'+'</div>';
+  var div = document.createElement('div');
+  div.innerHTML=html;
+
+  var appendTo = document.getElementById('storkwidget');
+
+  function ready(){
+    appendTo.parentNode.insertBefore(div,appendTo);
+  }
+  isCssReady(ready)
+
+
+
+  return Stork;
+})(window);
