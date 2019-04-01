@@ -1,4 +1,5 @@
 var Stork = (function(window, undefined) {
+  var url = 'https://49b8bba9.ngrok.io'
   var Stork = {}
   function loadSupportingFiles(callback){}
   function getWidgetParams(){}
@@ -71,7 +72,12 @@ var Stork = (function(window, undefined) {
     };
   }
   function sayhello(){
-    console.log('hello')
+    Stork.$.post(url + '/session',
+      {"domain": document.domain, "name":"Taro"},
+      function(dt){
+        console.log(dt);
+      }
+    );
     Stork.$(function() {
 
       Stork.$(document).on("click", '#shp-click', function () {
@@ -88,7 +94,7 @@ var Stork = (function(window, undefined) {
 
 
   Stork.$.ajax({
-    url: 'https://b4659964.ngrok.io/create',
+    url: url + '/create',
     type: 'get',
     dataType: 'json',
     xhrFields: {
@@ -145,13 +151,13 @@ var Stork = (function(window, undefined) {
 
   }
 
-  loadScript('https://b4659964.ngrok.io/jquery.js',sayhello);
+  loadScript(url + '/jquery.js',sayhello);
 
 
 
 
 
-  loadStylesheet('https://b4659964.ngrok.io/style.css');
+  loadStylesheet(url + '/style.css');
   var html = '<div id="shp-div">'+'<button id="shp-button">ボタン</button>' + '<button type="button" id="btn1" name="aaa" value="aaa">'+ '<font size="2">ここを</font><font size="5" color="#333399" id="shp-click">押してね</font>' + '</button>' +'<h3 id="shp-color">MikonE90DigitalSLR</h3>'+'<img src="https://lh3.googleusercontent.com/pU8j3O1yM4WiLD14LqFbXPrtYWzZDKjgYK6qzBSa822FRdlANJ16qO78zxj9hDkMQvD0Eg=s102"/>'+'<p id="shp-num">' + getProductId() + '</p>'+'<p>4.3/5.0&bull;176Reviews</p>'+'</div>';
   var div = document.createElement('div');
   div.innerHTML=html;
@@ -162,7 +168,6 @@ var Stork = (function(window, undefined) {
     appendTo.parentNode.insertBefore(div,appendTo);
   }
   isCssReady(ready)
-
 
 
   return Stork;

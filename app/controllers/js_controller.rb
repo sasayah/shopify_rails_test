@@ -1,7 +1,10 @@
-class JsController < ShopifyApp::AuthenticatedController
-  protect_from_forgery except: [:widget, :jquery]
+class JsController < ApplicationController
+  protect_from_forgery except: [:widget, :jquery, :style]
 
   def widget
+    logger.debug('ooooooooooo')
+    # session[:id] = 1
+    logger.debug(session[:id])
     respond_to do |format|
       format.js
     end

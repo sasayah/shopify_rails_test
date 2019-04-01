@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   get 'jquery', to: 'js#jquery'
   get 'style', to: 'js#style'
   get 'create', to: 'create#discount'
+  post 'session', to: 'session#init'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
